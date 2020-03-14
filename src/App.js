@@ -35,10 +35,20 @@ const DayComponent = () => {
   );
 };
 
+const NoteForm = () => {
+  return (
+    <div>
+      <input type="text" />
+      <input type="text" />
+    </div>
+  );
+};
+
 export default function App() {
   return (
     <div className="App">
       <DayComponent />
+      <NoteForm />
     </div>
   );
 }
