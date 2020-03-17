@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import NoteForm from "./NoteForm";
 import { Context } from "../contexts/NoteStore";
 import { formatCurrentDate } from "./../utils";
 
@@ -16,7 +17,7 @@ const Day = () => {
           context.data[day].items.map(i => (
             <div key={i.id}>
               <h5>
-                {i.title} {i.time} <button>Edit</button>
+                {i.title} {i.time} <button onClick={() => {}}>Edit</button>
                 <button onClick={() => context.remove(i.id)}>Delete</button>
               </h5>
               <p>{i.content}</p>
@@ -25,7 +26,7 @@ const Day = () => {
       </div>
     );
   }
-  return "There is no notes for this day. Please add something! :)";
+  return "There are no notes for this day. Please add your first note! :)";
 };
 
 export default Day;
