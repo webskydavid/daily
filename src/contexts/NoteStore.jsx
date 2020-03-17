@@ -50,7 +50,24 @@ const NoteStore = ({ children }) => {
     });
   };
 
-  const update = () => {};
+  const update = note => {
+    setData(s => {
+      console.log("Log: [note]", note, s);
+      const items = s[currentDay].items.map(i => {
+        if (i.id === note.id) {
+          return note;
+        }
+        return i;
+      });
+
+      return {
+        ...s,
+        [currentDay]: {
+          items
+        }
+      };
+    });
+  };
 
   const [fn] = useState({
     add,
