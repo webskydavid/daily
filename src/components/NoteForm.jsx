@@ -14,46 +14,47 @@ const Schema = Yup.object().shape({
     .required("Required")
 });
 
-const NoteForm = () => {
+const NoteForm = ({ values, update }) => {
   const context = useContext(Context);
-  const [toggle, setToggle] = useState(false);
 
-  const handleToggle = () => {
-    setToggle(s => !s);
-  };
+  const { title, content } = values;
 
   return (
-    <>
-      <button onClick={handleToggle}>New note</button>
-
-      {toggle ? (
-        <Formik
-          initialValues={{ title: "", content: "" }}
-          onSubmit={(value, actions) => {
-            context.add(value);
-            actions.resetForm();
-            handleToggle();
-          }}
-          validationSchema={Schema}
-        >
-          <Form>
-            <label htmlFor="">
-              Title
-              <Field type="text" name="title" />
-              <ErrorMessage name="title" />
-            </label>
-            <br />
-            <label htmlFor="">
-              Content
-              <Field as="textarea" name="content" />
-              <ErrorMessage name="content" />
-            </label>
-            <br />
-            <button type="submit">Save</button>
-          </Form>
-        </Formik>
-      ) : null}
-    </>
+    <Formik
+      initialValues={{
+        title: title || "fewf",
+        content: content || "fewfe"
+      }}
+      onSubmit={(value, actions) => {
+        if (update) {
+          context.update({
+            ...values,
+            title: value.title,
+            content: value.content
+          });
+        } else {
+          context.add(value);
+          actions.resetForm();
+        }
+      }}
+      validationSchema={Schema}
+    >
+      <Form>
+        <label htmlFor="">
+          Title
+          <Field type="text" name="title" />
+          <ErrorMessage name="title" />
+        </label>
+        <br />
+        <label htmlFor="">
+          Content
+          <Field as="textarea" name="content" />
+          <ErrorMessage name="content" />
+        </label>
+        <br />
+        <button type="submit">Save</button>
+      </Form>
+    </Formik>
   );
 };
 
