@@ -1,24 +1,23 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import Day from "./Day";
-import { Context } from "./../contexts/NoteStore";
-import { formatCurrentDate } from "./../utils";
+import { Context } from "./../App";
 
 const List = () => {
-  const { data } = useContext(Context);
-  const [day] = useState(formatCurrentDate("DDMMYYYY"));
+  const {
+    state: { currentDay, days }
+  } = React.useContext(Context);
+  const day = days[currentDay];
 
-  if (data[day]) {
-    return (
-      <div>
-        <h3>
-          <button>Prev</button> Daily of {day} <button>Next</button>
-        </h3>
-        {data[day].items &&
-          data[day].items.map(i => <Day key={i.id} data={i} />)}
-      </div>
-    );
+  if (!day) {
+    return "No items!";
   }
-  return "There are no notes for this day. Please add your first note! :)";
+
+  const items = day.items;
+
+  if (items) {
+    return <div>{items && items.map(i => <Day key={i.id} data={i} />)}</div>;
+  }
+  return "ERROR";
 };
 
 export default List;

@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
-import { Context } from "./../contexts/NoteStore";
 import * as Yup from "yup";
+import { formatCurrentDate } from "./../utils";
+import { Context } from "./../App";
 
 const Schema = Yup.object().shape({
   title: Yup.string()
@@ -14,47 +15,85 @@ const Schema = Yup.object().shape({
     .required("Required")
 });
 
-const NoteForm = ({ values, update }) => {
-  const context = useContext(Context);
+const NoteForm = () => {
+  let initValue = {
+    title: "",
+    content: ""
+  };
+  const {
+    state: { form, days },
+    dispatch
+  } = React.useContext(Context);
 
-  const { title, content } = values;
+  if (form.isEdit.id > 0) {
+    initValue = days[form.isEdit.date].items.find(i => i.id === form.isEdit.id);
+  }
 
   return (
-    <Formik
-      initialValues={{
-        title: title || "fewf",
-        content: content || "fewfe"
-      }}
-      onSubmit={(value, actions) => {
-        if (update) {
-          context.update({
-            ...values,
-            title: value.title,
-            content: value.content
-          });
-        } else {
-          context.add(value);
-          actions.resetForm();
-        }
-      }}
-      validationSchema={Schema}
-    >
-      <Form>
-        <label htmlFor="">
-          Title
-          <Field type="text" name="title" />
-          <ErrorMessage name="title" />
-        </label>
-        <br />
-        <label htmlFor="">
-          Content
-          <Field as="textarea" name="content" />
-          <ErrorMessage name="content" />
-        </label>
-        <br />
-        <button type="submit">Save</button>
-      </Form>
-    </Formik>
+    <>
+      {!form.show && (
+        <button
+          onClick={() => dispatch({ type: "FORM", payload: { show: true } })}
+        >
+          Add new NOTE!
+        </button>
+      )}
+      {form.show && (
+        <>
+          {form.isEdit.id > 0 && "Edit: " + initValue.title}
+          <Formik
+            initialValues={{ ...initValue }}
+            enableReinitialize
+            onSubmit={(value, actions) => {
+              if (form.isEdit.id > 0) {
+                dispatch({
+                  type: "UPDATE",
+                  payload: {
+                    ...value
+                  }
+                });
+                dispatch({ type: "IS_EDIT", payload: { date: 0, id: 0 } });
+              } else {
+                dispatch({
+                  type: "ADD",
+                  payload: {
+                    ...value,
+                    date: formatCurrentDate()
+                  }
+                });
+              }
+              actions.resetForm();
+              dispatch({ type: "FORM", payload: { show: false } });
+            }}
+            validationSchema={Schema}
+          >
+            <Form>
+              <label htmlFor="">
+                Title
+                <Field type="text" name="title" />
+                <ErrorMessage name="title" />
+              </label>
+              <br />
+              <label htmlFor="">
+                Content
+                <Field as="textarea" name="content" />
+                <ErrorMessage name="content" />
+              </label>
+              <br />
+              <button
+                type="button"
+                onClick={() =>
+                  dispatch({ type: "FORM", payload: { show: false } })
+                }
+              >
+                Close
+              </button>
+              <button type="submit">Save</button>
+            </Form>
+          </Formik>
+        </>
+      )}
+    </>
   );
 };
 
