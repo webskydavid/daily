@@ -1,6 +1,6 @@
 import React from "react";
-import Day from "./Day";
-import { Context } from "./../reducer";
+import Day from "../Day/Day";
+import { Context } from "../../reducer";
 import style from "./List.module.scss";
 
 const List = () => {

@@ -1,8 +1,8 @@
 import React from "react";
-import { Context, types } from "./../reducer";
-import { formatDate, formatCurrentDate } from "./../utils";
+import { Context, types } from "../../reducer";
+import { formatDate, formatCurrentDate } from "../../utils";
 import style from "./Head.module.scss";
-import Button from "./elements/Button";
+import Button from "../elements/Button";
 const Head = () => {
   const {
     state: { currentDay },

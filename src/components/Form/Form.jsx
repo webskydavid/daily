@@ -1,11 +1,11 @@
 import React from "react";
-import { Form, Formik, Field, ErrorMessage } from "formik";
+import { Form as FormikForm, Formik } from "formik";
 import * as Yup from "yup";
-import { formatCurrentDate, getTime, timestamp } from "./../utils";
-import { Context, types } from "./../reducer";
-import Button from "./elements/Button";
-import Input from "./elements/Input";
-import style from "./../components/NoteForm.module.scss";
+import { formatCurrentDate, getTime, timestamp } from "../../utils";
+import { Context, types } from "../../reducer";
+import Button from "../elements/Button";
+import Input from "../elements/Input";
+import style from "./Form.module.scss";
 
 const Schema = Yup.object().shape({
   title: Yup.string()
@@ -18,7 +18,7 @@ const Schema = Yup.object().shape({
     .required("Required")
 });
 
-const NoteForm = () => {
+const Form = () => {
   let initValue = {
     title: "",
     content: "",
@@ -80,7 +80,7 @@ const NoteForm = () => {
             }}
             validationSchema={Schema}
           >
-            <Form>
+            <FormikForm>
               <Input key="title" label="Title" name="title" type="text" />
               <Input
                 key="content"
@@ -99,7 +99,7 @@ const NoteForm = () => {
                 }
               />
               <Button variant="primary" type="submit" text="Save" />
-            </Form>
+            </FormikForm>
           </Formik>
         </div>
       )}
@@ -107,4 +107,4 @@ const NoteForm = () => {
   );
 };
 
-export default NoteForm;
+export default Form;

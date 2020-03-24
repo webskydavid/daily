@@ -1,8 +1,8 @@
 import React from "react";
 import Store from "./reducer";
-import Head from "./components/Head";
-import NoteForm from "./components/NoteForm";
-import List from "./components/List";
+import Head from "./components/Head/Head";
+import NoteForm from "./components/Form/Form";
+import List from "./components/List/List";
 import "./styles.scss";
 
 export default function App() {

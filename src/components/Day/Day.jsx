@@ -1,6 +1,6 @@
 import React from "react";
-import { Context, types } from "./../reducer";
-import Button from "./elements/Button";
+import { Context, types } from "../../reducer";
+import Button from "../elements/Button";
 
 const Day = ({ data }) => {
   const {
