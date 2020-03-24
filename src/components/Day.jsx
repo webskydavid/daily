@@ -1,5 +1,6 @@
 import React from "react";
-import { Context } from "./../App";
+import { Context, types } from "./../reducer";
+import Button from "./elements/Button";
 
 const Day = ({ data }) => {
   const {
@@ -11,24 +12,31 @@ const Day = ({ data }) => {
     <div key={data.id}>
       <h5>
         {data.title} {data.time}{" "}
-        <button
+        <Button
+          variant="info"
+          size="small"
+          text="Edit"
           onClick={() =>
             dispatch({
-              type: "IS_EDIT",
+              type: types.IS_EDIT,
               payload: {
                 date: currentDay,
                 id: data.id
               }
             })
           }
-        >
-          Edit
-        </button>
-        <button
-          onClick={() => dispatch({ type: "REMOVE", payload: { id: data.id } })}
-        >
-          Delete
-        </button>
+        />
+        <Button
+          variant="danger"
+          size="small"
+          text="Delete"
+          onClick={() =>
+            dispatch({
+              type: types.REMOVE,
+              payload: { id: data.id }
+            })
+          }
+        />
       </h5>
       <p>{data.content}</p>
     </div>

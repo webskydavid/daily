@@ -1,8 +1,11 @@
 import React from "react";
 import { Form, Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { formatCurrentDate } from "./../utils";
-import { Context } from "./../App";
+import { formatCurrentDate, getTime, timestamp } from "./../utils";
+import { Context, types } from "./../reducer";
+import Button from "./elements/Button";
+import Input from "./elements/Input";
+import style from "./../components/NoteForm.module.scss";
 
 const Schema = Yup.object().shape({
   title: Yup.string()
@@ -18,7 +21,9 @@ const Schema = Yup.object().shape({
 const NoteForm = () => {
   let initValue = {
     title: "",
-    content: ""
+    content: "",
+    time: getTime(),
+    id: timestamp()
   };
   const {
     state: { form, days },
@@ -32,14 +37,16 @@ const NoteForm = () => {
   return (
     <>
       {!form.show && (
-        <button
-          onClick={() => dispatch({ type: "FORM", payload: { show: true } })}
-        >
-          Add new NOTE!
-        </button>
+        <Button
+          type="button"
+          text="Add new NOTE!"
+          onClick={() =>
+            dispatch({ type: types.SHOW_FORM, payload: { show: true } })
+          }
+        />
       )}
       {form.show && (
-        <>
+        <div className={style.form}>
           {form.isEdit.id > 0 && "Edit: " + initValue.title}
           <Formik
             initialValues={{ ...initValue }}
@@ -47,15 +54,18 @@ const NoteForm = () => {
             onSubmit={(value, actions) => {
               if (form.isEdit.id > 0) {
                 dispatch({
-                  type: "UPDATE",
+                  type: types.UPDATE,
                   payload: {
                     ...value
                   }
                 });
-                dispatch({ type: "IS_EDIT", payload: { date: 0, id: 0 } });
+                dispatch({
+                  type: types.IS_EDIT,
+                  payload: { date: 0, id: 0 }
+                });
               } else {
                 dispatch({
-                  type: "ADD",
+                  type: types.ADD,
                   payload: {
                     ...value,
                     date: formatCurrentDate()
@@ -63,35 +73,35 @@ const NoteForm = () => {
                 });
               }
               actions.resetForm();
-              dispatch({ type: "FORM", payload: { show: false } });
+              dispatch({
+                type: types.SHOW_FORM,
+                payload: { show: false }
+              });
             }}
             validationSchema={Schema}
           >
             <Form>
-              <label htmlFor="">
-                Title
-                <Field type="text" name="title" />
-                <ErrorMessage name="title" />
-              </label>
-              <br />
-              <label htmlFor="">
-                Content
-                <Field as="textarea" name="content" />
-                <ErrorMessage name="content" />
-              </label>
-              <br />
-              <button
+              <Input key="title" label="Title" name="title" type="text" />
+              <Input
+                key="content"
+                label="Content"
+                name="content"
+                type="textarea"
+              />
+              <Input key="time" label="Time" name="time" type="text" />
+
+              <Button
+                variant="warning"
                 type="button"
+                text="Close"
                 onClick={() =>
-                  dispatch({ type: "FORM", payload: { show: false } })
+                  dispatch({ type: types.SHOW_FORM, payload: { show: false } })
                 }
-              >
-                Close
-              </button>
-              <button type="submit">Save</button>
+              />
+              <Button variant="primary" type="submit" text="Save" />
             </Form>
           </Formik>
-        </>
+        </div>
       )}
     </>
   );
