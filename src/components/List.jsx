@@ -1,6 +1,7 @@
 import React from "react";
 import Day from "./Day";
-import { Context } from "./../App";
+import { Context } from "./../reducer";
+import style from "./List.module.scss";
 
 const List = () => {
   const {
@@ -8,16 +9,20 @@ const List = () => {
   } = React.useContext(Context);
   const day = days[currentDay];
 
-  if (!day) {
-    return "No items!";
+  if (day) {
+    const items = day.items;
+
+    if (items.length > 0) {
+      return (
+        <div className={style.list}>
+          {items && items.map(i => <Day key={i.id} data={i} />)}
+        </div>
+      );
+    }
+    return <div className={style.no_item}>No items!</div>;
   }
 
-  const items = day.items;
-
-  if (items) {
-    return <div>{items && items.map(i => <Day key={i.id} data={i} />)}</div>;
-  }
-  return "ERROR";
+  return <div className={style.no_item}>No items!</div>;
 };
 
 export default List;
