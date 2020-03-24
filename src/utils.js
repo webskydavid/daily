@@ -6,8 +6,16 @@ export const formatCurrentDate = (format = DEFAULT_FORMAT) => {
   return moment().format(format);
 };
 
+export const formatDate = (date, input, output) => {
+  return moment(date, input).format(output);
+};
+
 export const timestamp = () => {
   return moment().valueOf();
+};
+
+export const getTime = (date = {}) => {
+  return moment(date).format("HH:mm:ss");
 };
 
 export const nextDayFormatted = date => {
