@@ -1,0 +1,29 @@
+.input {
+  margin: 20px 0px;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+
+  span {
+    align-self: flex-start;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  input,
+  textarea {
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    padding: 9px;
+    font-size: 16px;
+  }
+
+  div {
+    align-self: flex-start;
+    color: red;
+    font-size: 14px;
+    font-weight: 300;
+    margin-top: 4px;
+  }
+}
