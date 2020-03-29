@@ -3,6 +3,7 @@ import { Context, types } from "../../reducer";
 import { formatDate, formatCurrentDate } from "../../utils";
 import style from "./Head.module.scss";
 import Button from "../elements/Button";
+
 const Head = () => {
   const {
     state: { currentDay },
@@ -15,8 +16,7 @@ const Head = () => {
         text="Prev"
         onClick={() => dispatch({ type: types.PREV_DAY })}
       />
-
-      {formatDate(currentDay, "DDMMYYYY", "DD-MMMM-YYYY")}
+      <p>{formatDate(currentDay, "DDMMYYYY", "DD-MMMM-YYYY")}</p>
       {currentDay !== formatCurrentDate() && (
         <Button
           size="small"
