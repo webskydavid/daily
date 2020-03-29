@@ -1,8 +1,11 @@
+@import "./../../variables.scss";
+
 .form {
-  width: 100%;
+  background-color: #fff;
+  width: auto;
   display: grid;
   position: sticky;
-  // background: #a75050;
   z-index: 2000;
   bottom: 0px;
+  padding: $padding-medium;
 }

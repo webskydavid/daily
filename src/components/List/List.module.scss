@@ -1,10 +1,11 @@
+@import "./../../variables.scss";
+
 .list {
-  // background: gray;
+  padding: $padding-medium;
   min-height: 400px;
   margin-top: 40px;
 }
 
 .no_item {
-  min-height: 400px;
-  margin-top: 40px;
+  @extend .list;
 }

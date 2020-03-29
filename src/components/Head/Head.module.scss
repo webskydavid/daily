@@ -1,4 +1,15 @@
+@import "./../../variables.scss";
+
 .head {
-  // background: #cc8787;
+  background: #fff;
+  padding: $padding-medium;
   position: fixed;
+  left: 0;
+  right: 0;
+
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 3fr 1fr;
+  justify-items: center;
+  align-items: center;
 }
